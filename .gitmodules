@@ -1,3 +1,4 @@
 [submodule "libs/diffilqrax"]
 	path = libs/diffilqrax
-	url = git@github.com:ThomasMullen/diffilqrax.git
+	url = https://github.com/ThomasMullen/diffilqrax.git
+	
