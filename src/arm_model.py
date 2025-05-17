@@ -29,6 +29,16 @@ min_theta = 0.
 # Define functions to calculate matrices for forward dynamics
 def calc_dyn_mats(theta1, theta2, dtheta1, dtheta2):
     """
+    Calculate the dynamics matrices (Matrix of intertias and Centripetal and 
+    Coriolis forces) for the arm model.
+    Args:
+        theta1 (float): Joint angle 1 (shoulder)
+        theta2 (float): Joint angle 2 (elbow)
+        dtheta1 (float): Joint velocity 1 (shoulder)
+        dtheta2 (float): Joint velocity 2 (elbow)
+    Returns:
+        m_theta (jnp.ndarray): Matrix of inertia
+        Cor (jnp.ndarray): Centripetal and Coriolis forces
     """
     # Update Matrix of inertia
     m_theta = jnp.array(
@@ -45,6 +55,11 @@ def calc_dyn_mats(theta1, theta2, dtheta1, dtheta2):
 # Define function for calculating arm positions
 def calc_arm_pos(thetas):
     """
+    Calculate the positions of the arm segments given the joint angles.
+    Args:
+        thetas (jnp.ndarray): Joint angles [theta1, theta2]
+    Returns:
+        jnp.ndarray: Positions of the hand and elbow
     """
     # Extract necessary state vars
     theta1, theta2 = thetas
@@ -62,6 +77,11 @@ def calc_arm_pos(thetas):
 
 def get_angles_from_pos(pos):
     """
+    Calculate the angles of the arm segments given the hand position.
+    Args:
+        pos (jnp.ndarray): Hand position [x, y]
+    Returns:
+        jnp.ndarray: Joint angles [theta1, theta2]
     """
     x, y = pos
     theta1 = jnp.arctan2(y, x) - jnp.arccos((x**2 + y**2 + L1**2 - L2**2)
@@ -72,6 +92,15 @@ def get_angles_from_pos(pos):
 
 def init_radial_task(start_pos=jnp.array([0.0, 0.4]), radius=0.12):
     """
+    Initialize the arm model in a radial task. Targets are placed in a circle
+    around the starting position of the hand.
+    Args:
+        start_pos (jnp.ndarray): Starting position of the hand [x, y]
+        radius (float): Radius of the radial task
+    Returns:
+        init_thetas (jnp.ndarray): Initial joint angles [theta1, theta2]
+        target_angles (jnp.ndarray): Target joint angles [theta1, theta2]
+        targets (jnp.ndarray): Target positions [x, y]
     """
     # Set starting positions
     x0, y0 = start_pos
@@ -96,7 +125,13 @@ def init_radial_task(start_pos=jnp.array([0.0, 0.4]), radius=0.12):
 
 def check_bounds(n_state):
     """
-    Check if theta1 and theta2 are out of biomechanical-ish bounds.
+    Check the bounds of the arm model state and set to bounds if exceeded.
+    Currently, the bounds are set to 0 and pi (somewhat biomechanical).
+    Returns current state if within bounds, otherwise thresholds to bounds.
+    Args:
+        n_state (jnp.ndarray): State of the arm model
+    Returns:
+        n_state (jnp.ndarray): Updated state of the arm model
     """
 
     # Check thetas against upper bound
@@ -136,6 +171,14 @@ def check_bounds(n_state):
 # Define dynamics step
 def update_state(state, torques, dt=0.001):
     """
+    Update the state of the arm model given the current state and torques.
+    From Li and Todorov (2004).
+    Args:
+        state (jnp.ndarray): Current state of the arm model
+        torques (jnp.ndarray): Torques applied to the arm model
+        dt (float): Time step for the update
+    Returns:
+        n_state (jnp.ndarray): Updated state of the arm model
     """
     arm_state = state[-4:]
     # extract state vars
