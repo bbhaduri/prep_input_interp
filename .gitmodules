@@ -1,4 +1,3 @@
-[submodule "libs/diffilqrax"]
-	path = libs/diffilqrax
-	url = https://github.com/ThomasMullen/diffilqrax.git
-	
+[submodule "libs/diffilqrax-m1arm"]
+	path = libs/diffilqrax-m1arm
+	url = https://github.com/bbhaduri/diffilqrax-m1arm.git
