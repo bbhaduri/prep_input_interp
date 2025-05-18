@@ -1,5 +1,5 @@
 # prep_input_interp
-This repository replicates the task from [Schimel et. al. 2024](https://elifesciences.org/articles/89131#s3) using JAX and the [diffilqrax](https://github.com/ThomasMullen/diffilqrax/tree/main) repository created by Thomas Mullen.
+This repository replicates the task from [Schimel et. al. 2024](https://elifesciences.org/articles/89131#s3) using JAX and the [diffilqrax](https://github.com/ThomasMullen/diffilqrax/tree/main) repository created by Thomas Mullen. Original code for this task was written by Marine Schimel and can be found [here](https://github.com/marineschimel/why-prep-2).
 
 ### Installation
 Clone this repository and its submodules using the following comand:
