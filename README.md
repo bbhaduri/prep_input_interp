@@ -8,8 +8,11 @@ git clone --recursive https://github.com/bbhaduri/prep_input_interp.git
 ```
 
 Create a conda environment in order to run any of the notebooks with Python 3.10
+and activate it.
 ```
 conda create -n <insert env_name> python=3.10
+# After creating the environment
+conda activate <insert env_name>
 ```
 
 Add src folder and `diffilqrax` libraries to your environment:
